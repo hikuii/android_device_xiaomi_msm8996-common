@@ -513,6 +513,7 @@ service thermal-engine /vendor/bin/thermal-engine -c ${sys.qcom.thermalcfg:-/ven
     socket thermal-send-rule stream 0660 system system
     group root
     writepid /dev/cpuset/system-background/tasks
+    disabled
 
 service adsprpcd /vendor/bin/adsprpcd
     class main
