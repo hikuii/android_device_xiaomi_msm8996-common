@@ -70,6 +70,14 @@ void property_override(char const prop[], char const value[], bool add = true)
     }
 }
 
+void override_sensitive_props()
+{
+    property_override("ro.boot.vbmeta.device_state","locked");
+    property_override("ro.boot.verifiedbootstate", "green");
+    property_override("ro.boot.veritymode", "enforcing");
+    property_override("vendor.boot.vbmeta.device_state", "locked");
+}
+
 void vendor_load_properties()
 {
     check_device();
@@ -80,4 +88,6 @@ void vendor_load_properties()
     property_override("dalvik.vm.heaptargetutilization", "0.75");
     property_override("dalvik.vm.heapminfree", heapminfree);
     property_override("dalvik.vm.heapmaxfree", heapmaxfree);
+
+    override_sensitive_props();
 }
