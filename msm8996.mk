@@ -151,6 +151,7 @@ PRODUCT_PACKAGES += \
     init.qcom.sh \
     init.qcom.power.rc \
     init.qcom.usb.rc \
+    init.qcom.usb.sh \
     init.recovery.qcom.rc \
     ueventd.qcom.rc
 
@@ -348,7 +349,9 @@ PRODUCT_PACKAGES += \
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
-    hardware/xiaomi
+    hardware/xiaomi \
+    vendor/qcom/opensource/usb/etc
+
 
 # Telephony
 PRODUCT_PACKAGES += \
