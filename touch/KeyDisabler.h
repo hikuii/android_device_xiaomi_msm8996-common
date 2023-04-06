@@ -36,6 +36,7 @@ class KeyDisabler : public IKeyDisabler {
 
   private:
     bool has_key_disabler_;
+    const char* control_path_;
 };
 
 }  // namespace implementation

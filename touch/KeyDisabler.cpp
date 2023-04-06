@@ -30,10 +30,19 @@ namespace touch {
 namespace V1_0 {
 namespace implementation {
 
-constexpr const char kControlPath[] = "/proc/touchpanel/capacitive_keys_enable";
+constexpr const char* kProcButtonsControlPath = "/proc/buttons/capacitive_keys_enable";
+constexpr const char* kProcTouchpanelControlPath = "/proc/touchpanel/capacitive_keys_enable";
 
 KeyDisabler::KeyDisabler() {
-    has_key_disabler_ = !access(kControlPath, F_OK);
+    if (!access(kProcButtonsControlPath, F_OK)) {
+        control_path_ = kProcButtonsControlPath;
+    } else if (!access(kProcTouchpanelControlPath, F_OK)) {
+        control_path_ = kProcTouchpanelControlPath;
+    } else {
+        control_path_ = nullptr;
+    }
+
+    has_key_disabler_ = control_path_ != nullptr;
 }
 
 // Methods from ::vendor::lineage::touch::V1_0::IKeyDisabler follow.
@@ -42,8 +51,8 @@ Return<bool> KeyDisabler::isEnabled() {
 
     if (!has_key_disabler_) return false;
 
-    if (!ReadFileToString(kControlPath, &buf, true)) {
-        LOG(ERROR) << "Failed to read from " << kControlPath;
+    if (!ReadFileToString(control_path_, &buf, true)) {
+        LOG(ERROR) << "Failed to read from " << control_path_;
         return false;
     }
 
@@ -53,8 +62,8 @@ Return<bool> KeyDisabler::isEnabled() {
 Return<bool> KeyDisabler::setEnabled(bool enabled) {
     if (!has_key_disabler_) return false;
 
-    if (!WriteStringToFile(enabled ? "0" : "1", kControlPath, true)) {
-        LOG(ERROR) << "Failed to write to " << kControlPath;
+    if (!WriteStringToFile(enabled ? "0" : "1", control_path_, true)) {
+        LOG(ERROR) << "Failed to write to " << control_path_;
         return false;
     }
 
