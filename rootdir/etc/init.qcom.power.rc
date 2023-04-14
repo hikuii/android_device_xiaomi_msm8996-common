@@ -179,9 +179,6 @@ on enable-low-power
     # Enable all LPMs (this will enable C4, D4, D3, E4 and M3 LPMs)
     write /sys/module/lpm_levels/parameters/sleep_disabled "N"
 
-    # Set perfd properties
-    setprop vendor.post_boot.parsed 1
-
 on property:sys.boot_completed=1
     trigger enable-low-power
 
@@ -206,12 +203,6 @@ service vendor.charger /system/bin/chargeonlymode
     group system graphics input
     capabilities SYS_BOOT
     seclabel u:r:charger:s0
-
-service energy-awareness /vendor/bin/energy-awareness
-    class main
-    user root
-    group system
-    oneshot
 
 service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
     class main
