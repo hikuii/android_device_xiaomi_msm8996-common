@@ -83,3 +83,8 @@ vendor.rild.libpath=/vendor/lib64/libril-qc-qmi-1.so
 # SoC
 ro.soc.manufacturer=Qualcomm
 ro.soc.model=MSM8996
+
+# USB
+vendor.usb.controller=6a00000.dwc3
+vendor.usb.use_ffs_mtp=0
+vendor.usb.use_gadget_hal=0
